@@ -1,0 +1,118 @@
+<view class="container {{darkMode ? 'dark-mode' : ''}}">
+  <!-- 顶部工具栏 -->
+  <view class="toolbar">
+    <view class="toolbar-left">
+      <text class="back-btn" bindtap="goBack">← 返回</text>
+    </view>
+    <view class="toolbar-right">
+      <view class="pin-toggle {{note.isPinned ? 'active' : ''}}" bindtap="togglePin">
+        <text class="pin-icon">📌</text>
+        <text class="pin-text">{{note.isPinned ? '已置顶' : '置顶'}}</text>
+      </view>
+      <text class="save-btn" bindtap="saveNote">保存</text>
+    </view>
+  </view>
+
+  <!-- AI 智能推荐 -->
+  <view class="ai-section {{showAIRecommend ? 'show' : ''}}">
+    <view class="ai-header">
+      <view class="ai-badge">
+        <text class="ai-icon">✨</text>
+        <text class="ai-title">AI 智能分析</text>
+      </view>
+      <view class="ai-loading" wx:if="{{aiLoading}}">
+        <text class="loading-icon">✨</text>
+        <text class="loading-text">分析中...</text>
+      </view>
+    </view>
+    
+    <view class="ai-content-area" wx:if="{{!aiLoading}}">
+      <view class="ai-error" wx:if="{{aiError}}">
+        <text class="error-icon">⚠️</text>
+        <text class="error-text">{{aiError}}</text>
+      </view>
+      <view class="ai-summary" wx:if="{{aiSummary}}">
+        <text class="ai-label">摘要：</text>
+        <text class="ai-content">{{aiSummary}}</text>
+      </view>
+      
+      <view class="ai-recommend">
+        <view class="ai-category-recommend" wx:if="{{aiCategory}}">
+          <text class="ai-label">推荐分类：</text>
+          <view class="ai-tag {{aiCategory === '工作' ? 'work' : aiCategory === '生活' ? 'life' : 'study'}}" bindtap="applyAICategory">
+            <text>{{aiCategory}}</text>
+            <text class="ai-apply">点击应用</text>
+          </view>
+        </view>
+        
+        <view class="ai-keywords" wx:if="{{aiKeywords.length > 0}}">
+          <text class="ai-label">关键词：</text>
+          <view class="ai-keyword-list">
+            <text class="ai-keyword-tag" wx:for="{{aiKeywords}}" wx:key="*this">{{item}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- AI 修饰按钮 -->
+      <view class="ai-polish-section" wx:if="{{showPolishBtn && !aiPolishedContent}}">
+        <view class="polish-btn" bindtap="polishContent">
+          <text class="polish-icon">✨</text>
+          <text class="polish-text">AI 修饰总结</text>
+        </view>
+      </view>
+      
+      <!-- 修饰结果展示 -->
+      <view class="polish-result" wx:if="{{aiPolishedContent}}">
+        <view class="polish-header">
+          <text class="ai-label">修饰结果：</text>
+        </view>
+        <text class="polish-content">{{aiPolishedContent}}</text>
+        <view class="polish-actions">
+          <view class="polish-action-btn cancel" bindtap="cancelPolish">
+            <text>取消</text>
+          </view>
+          <view class="polish-action-btn apply" bindtap="applyPolishedContent">
+            <text>应用</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类选择 -->
+  <view class="category-section">
+    <text class="section-label">分类：</text>
+    <picker mode="selector" range="{{categories}}" value="{{categoryIndex}}" bindchange="onCategoryChange">
+      <view class="category-picker">
+        <text>{{note.category}}</text>
+        <text class="picker-arrow">▼</text>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 标题输入 -->
+  <input 
+    class="title-input" 
+    placeholder="请输入标题..."
+    value="{{note.title}}"
+    bindinput="onTitleInput"
+    maxlength="100"
+  />
+
+  <!-- 内容输入 -->
+  <textarea 
+    class="content-input"
+    placeholder="请输入笔记内容..."
+    value="{{note.content}}"
+    bindinput="onContentInput"
+    maxlength="5000"
+    auto-height
+    show-confirm-bar="{{false}}"
+  />
+
+  <!-- 底部信息 -->
+  <view class="footer" wx:if="{{isEdit}}">
+    <text class="update-time">更新时间：{{formattedTime}}</text>
+    <text class="delete-btn" bindtap="deleteNote">删除笔记</text>
+  </view>
+</view>

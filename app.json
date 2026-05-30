@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/ai-write/index",
+    "pages/todos/index",
+    "pages/notes/index",
+    "pages/notes/edit"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#2563EB",
+    "navigationBarTitleText": "笔记待办",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F8FAFC"
+  },
+  "tabBar": {
+    "color": "#94A3B8",
+    "selectedColor": "#2563EB",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/ai-write/index",
+        "text": "AI代写"
+      },
+      {
+        "pagePath": "pages/todos/index",
+        "text": "待办"
+      },
+      {
+        "pagePath": "pages/notes/index",
+        "text": "笔记"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
